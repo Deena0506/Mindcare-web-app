@@ -107,7 +107,7 @@
   align-items: center;
   text-align: center;
   color: white;
-  padding: 0 20px;
+  padding: 10px 20px;
 }
 
 .hero-content h1 {
@@ -134,7 +134,32 @@
 
 .hero-content button:hover {
   background-color: #ffc947;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
 }
+
+.get-started-btn {
+  display: block;              /* make them stack */
+  margin: 20px 175px;           /* center horizontally with spacing */
+}
+
+.get-started-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 25px;
+  background-color: #ffcb77;
+  color: #1e3d59;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.get-started-btn:hover {
+  background-color: #ffc947;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+}
+
 
 /* Challenge Page */
 .challenge {
