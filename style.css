@@ -161,8 +161,12 @@ img {
   margin-bottom: 20px;
 }
 
-.hero-content button {
-  padding: 10px 20px;
+/* Base styles for buttons */
+.hero-content button,
+.get-started-btn {
+  display: block;               /* stack buttons vertically */
+  margin: 20px auto;            /* center horizontally with auto */
+  padding: 10px 25px;           /* slightly larger padding for better touch on mobile */
   border: none;
   border-radius: 25px;
   background-color: #ffcb77;
@@ -170,34 +174,37 @@ img {
   font-size: 1rem;
   cursor: pointer;
   transition: 0.3s;
+  max-width: 300px;             /* restrict width for large screens */
+  width: 80%;                   /* responsive width for smaller screens */
+  text-align: center;
 }
 
-.hero-content button:hover {
-  background-color: #ffc947;
-  transform: translateY(-3px);
-  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
-}
-
-.get-started-btn {
-  display: block;              /* make them stack */
-  margin: 20px 90px;           /* center horizontally with spacing */
-}
-
-.get-started-btn {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 25px;
-  background-color: #ffcb77;
-  color: #1e3d59;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
+.hero-content button:hover,
 .get-started-btn:hover {
   background-color: #ffc947;
   transform: translateY(-3px);
-  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Responsive adjustments for smaller devices */
+@media screen and (max-width: 768px) {
+  .hero-content button,
+  .get-started-btn {
+    font-size: 0.95rem;
+    padding: 12px 20px;
+    margin: 15px auto;
+    width: 90%;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .hero-content button,
+  .get-started-btn {
+    font-size: 0.9rem;
+    padding: 10px 15px;
+    margin: 10px auto;
+    width: 95%;
+  }
 }
 
 
