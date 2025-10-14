@@ -1,0 +1,275 @@
+
+
+/* ------------------- NAVBAR ------------------- */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 50px;
+  background-color: #1e3d59;
+  color: white;
+  position: relative;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+/* Nav Links */
+.nav-links {
+  list-style: none;
+  display: flex;
+}
+
+.nav-links li {
+  margin-left: 25px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: white;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+.nav-links a:hover {
+  color: #ffcb77;
+}
+
+/* Hamburger Icon */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.hamburger span {
+  height: 3px;
+  width: 25px;
+  background: white;
+  margin: 4px;
+  border-radius: 3px;
+  transition: all 0.4s ease;
+}
+
+/* Transform into "X" */
+.hamburger.active span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(6px, -6px);
+}
+
+/* Responsive Navbar */
+@media (max-width: 768px) {
+  .nav-links {
+    flex-direction: column;
+    background-color: #1e3d59;
+    position: absolute;
+    top: 60px;
+    right: 0;
+    width: 200px;
+    border-radius: 8px;
+    text-align: center;
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    transition: max-height 0.4s ease, opacity 0.4s ease;
+  }
+
+  .nav-links li {
+    margin: 15px 0;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  .nav-links.active {
+    max-height: 300px;
+    opacity: 1;
+  }
+}
+
+/* ------------------- HERO SECTION ------------------- */
+.hero {
+  height: 100vh;
+  background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80') no-repeat center center/cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: white;
+  padding: 0 20px;
+}
+
+.hero-content h1 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+  color: #1e3d59;
+}
+
+.hero-content p {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+.hero-content button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 25px;
+  background-color: #ffcb77;
+  color: #1e3d59;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.hero-content button:hover {
+  background-color: #ffc947;
+}
+
+/* Challenge Page */
+.challenge {
+  padding: 50px 20px;
+  background: #f6f9fc;
+  min-height: 100vh;
+}
+
+.challenge-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.challenge-header h1 {
+  font-size: 2.5rem;
+  color: #1e3d59;
+  margin-bottom: 10px;
+}
+
+.challenge-header p {
+  font-size: 1.2rem;
+  color: #555;
+}
+
+.challenge-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.challenge-card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  font-weight: bold;
+  color: #1e3d59;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.challenge-card span {
+  display: block;
+  font-weight: normal;
+  margin-top: 10px;
+  color: #333;
+}
+
+.challenge-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+}
+
+/* Complete Button */
+.complete-btn {
+  margin-top: 10px;
+  padding: 5px 12px;
+  border: none;
+  border-radius: 20px;
+  background-color: #ffcb77; /* Orange */
+  color: #1e3d59;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.complete-btn:hover {
+  background-color: #ffc947;
+}
+
+/* Completed State */
+.challenge-card.completed .complete-btn {
+  background-color: #3c763d; /* Green */
+  color: white;
+  cursor: default;
+}
+
+
+/* ------------------- MOOD TRACKER ------------------- */
+.mood-tracker {
+  padding: 50px 20px;
+  background: #f6f9fc;
+  min-height: 100vh;
+}
+
+.mood-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.mood-header h1 {
+  font-size: 2.5rem;
+  color: #1e3d59;
+  margin-bottom: 10px;
+}
+
+.mood-header p {
+  font-size: 1.2rem;
+  color: #555;
+}
+
+.mood-input {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.mood-input select {
+  padding: 8px 15px;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-right: 10px;
+}
+
+.mood-input button {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 25px;
+  background-color: #ffcb77;
+  color: #1e3d59;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.mood-input button:hover {
+  background-color: #ffc947;
+}
+
+.mood-chart-container {
+  max-width: 700px;
+  margin: auto;
+}
+
+#quote {
+  transition: opacity 0.6s ease-in-out;
+  opacity: 1;
+}

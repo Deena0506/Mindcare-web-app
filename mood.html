@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daily Mood Tracker</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <!-- Navbar -->
+  <header>
+    <nav class="navbar">
+      <div class="logo">Mood Tracker</div>
+
+      <!-- Hamburger -->
+      <div class="hamburger" onclick="toggleMenu()" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="challenge.html">21-Day Challenge</a></li>
+        <li><a href="mood.html">Daily Mood</a></li>
+        <li><a href="psychiatrists.html">Psychiatrists</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Mood Tracker Section -->
+  <section class="mood-tracker">
+    <div class="mood-header">
+      <h1>Daily Mood Tracker</h1>
+      <p>Select your mood for today:</p>
+    </div>
+
+    <div class="mood-input">
+      <select id="mood-select">
+        <option value="">--Select Mood--</option>
+        <option value="Happy">😊 Happy</option>
+        <option value="Sad">😢 Sad</option>
+        <option value="Stressed">😰 Stressed</option>
+        <option value="Calm">😌 Calm</option>
+        <option value="Excited">🤩 Excited</option>
+        <option value="Anxious">😟 Anxious</option>
+      </select>
+      <button onclick="saveMood()">Save Mood</button>
+    </div>
+
+    <div class="mood-chart-container">
+      <canvas id="moodChart"></canvas>
+    </div>
+  </section>
+
+  <script src="js/mood.js"></script>
+  <script src="js/script.js"></script>
+</body>
+</html>
