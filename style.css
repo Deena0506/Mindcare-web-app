@@ -1,3 +1,43 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  overflow-x: hidden; /* prevent sideways scroll */
+}
+
+section {
+  padding: 40px 20px; /* smaller padding for mobile */
+}
+
+h1, p {
+  text-align: center;
+  margin: 0 auto;
+  max-width: 90%; /* so text doesn’t overflow */
+}
+
+button, .btn {
+  width: 100%;
+  max-width: 250px; /* limit size */
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 1.8rem;
+  }
+  p {
+    font-size: 1rem;
+  }
+  .hero-content {
+    padding: 20px;
+  }
+}
 
 
 /* ------------------- NAVBAR ------------------- */
@@ -140,7 +180,7 @@
 
 .get-started-btn {
   display: block;              /* make them stack */
-  margin: 20px 175px;           /* center horizontally with spacing */
+  margin: 20px 90px;           /* center horizontally with spacing */
 }
 
 .get-started-btn {
