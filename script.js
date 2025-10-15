@@ -144,3 +144,30 @@ function clearHistory() {
 updateChart();
 updateHistory();
 
+document.querySelectorAll(".appointment-form").forEach((form) => {
+  form.addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    const coach = this.parentElement.querySelector("h2").textContent;
+    const date = this.querySelector('input[type="date"]').value;
+    const time = this.querySelector('input[type="time"]').value;
+
+    if (!date || !time) {
+      alert("Please fill all fields.");
+      return;
+    }
+
+    // Save to localStorage
+    const appointment = { coach, date, time };
+    let appointments = JSON.parse(localStorage.getItem("appointments")) || [];
+    appointments.push(appointment);
+    localStorage.setItem("appointments", JSON.stringify(appointments));
+
+    // Show confirmation
+    this.parentElement.querySelector(".confirmation").style.display = "block";
+
+    // Reset form
+    this.reset();
+  });
+});
+

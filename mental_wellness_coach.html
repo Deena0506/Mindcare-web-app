@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mental Wellness Coach</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Navbar -->
+  <header>
+    <nav class="navbar">
+      <div class="logo">MindCare</div>
+      <div class="hamburger" onclick="toggleMenu()" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="challenge.html">21-Day Challenge</a></li>
+        <li><a href="mood.html">Daily Mood</a></li>
+        <li><a href="mental_wellness_coach.html" class="active">Mental Wellness Coach</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Coaches Section -->
+  <section class="coaches">
+    <div class="coach-header">
+      <h1>Our Mental Wellness Coach</h1>
+      <p>Meet experienced professionals here to guide you on your wellness journey.</p>
+    </div>
+
+    <div class="coach-grid">
+      <!-- Coach Card -->
+      <div class="coach-card">
+        <img src="/public/thinusha.jpg" alt="Thinusha">
+        <h2>Thinusha</h2>
+        <p>Experience: 5+ years in mental health counseling</p>
+        <div class="rating">⭐⭐⭐⭐⭐</div>
+      </div>
+
+ <!-- Appointment Form -->
+    <form class="appointment-form">
+      <label for="date-Thinusha">Select Date:</label>
+      <input type="date" id="date-Thinusha" required>
+
+      <label for="time-Thinusha">Select Time:</label>
+      <input type="time" id="time-Thinusha" required>
+
+      <button type="submit">Book Appointment</button>
+    </form>
+
+    <div class="confirmation">✅ Appointment booked successfully!</div>
+    </div>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
