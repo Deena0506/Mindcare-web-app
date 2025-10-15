@@ -112,36 +112,94 @@ body {
   justify-content: center;
   align-items: flex-start;
   padding: 40px 20px;
+  box-sizing: border-box;
 }
 
+/* Journal container */
 .journal-container {
-  width: 100%;
-  max-width: 600px;
+  width: 200%;
+  max-width: 1355px;
   background: #fff;
-  padding: 20px;
+  padding: 20px;       /* add inner padding for mobile */
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  box-sizing: border-box;
 }
 
 /* ------------------- TYPOGRAPHY ------------------- */
 h1, h2 {
   color: #333;
-  margin-bottom: 10px;
+  margin-bottom: 10px;  /* slightly bigger spacing */
+  font-size: 1.5rem;
 }
 
 p {
   color: #555;
+  font-size: 1rem;
 }
 
 /* ------------------- INPUT & BUTTONS ------------------- */
 textarea {
   width: 100%;
   height: 150px;
-  padding: 10px;
+  padding: 10px;        /* padding for mobile usability */
   border-radius: 8px;
   border: 1px solid #ccc;
   margin-bottom: 10px;
   resize: none;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+/* ------------------- RESPONSIVE ------------------- */
+@media screen and (max-width: 768px) {
+  .main-content {
+    padding: 20px 30px;
+    flex-direction: column;  /* stack vertically */
+    align-items: center;
+  }
+
+  .journal-container {
+    width: 100%;      /* fit almost full width */
+    padding: 15px;
+  }
+
+  h1, h2 {
+    font-size: 1.3rem;
+  }
+
+  p {
+    font-size: 0.95rem;
+  }
+
+  textarea {
+    height: 130px;
+    font-size: 0.95rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .main-content {
+    padding: 15px 5px;
+  }
+
+  .journal-container {
+    width: 100%;
+    padding: 20px;
+  }
+
+  h1, h2 {
+    font-size: 1.1rem;
+  }
+
+  p {
+    font-size: 0.9rem;
+  }
+
+  textarea {
+    height: 120px;
+    font-size: 0.9rem;
+  }
 }
 
 button {
@@ -173,14 +231,18 @@ button:hover {
 #journal-list {
   list-style: none;
   padding: 0;
+  margin: 0;
 }
 
 #journal-list li {
   background: #f9f9f9;
   margin: 8px 0;
-  padding: 10px;
   border-radius: 8px;
   color: #444;
   font-size: 0.95rem;
-  word-wrap: break-word; /* prevent overflow on mobile */
+  word-wrap: break-word;         /* break long words */
+  overflow-wrap: break-word;     /* modern support */
+  max-width: 100%;               /* don’t exceed parent */
+  box-sizing: border-box;        /* padding included in width */
 }
+

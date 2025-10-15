@@ -144,30 +144,25 @@ function clearHistory() {
 updateChart();
 updateHistory();
 
-document.querySelectorAll(".appointment-form").forEach((form) => {
+  const form = document.getElementById("appointmentForm");
+  const confirmation = document.getElementById("confirmation");
+
   form.addEventListener("submit", function(event) {
-    event.preventDefault();
+    event.preventDefault(); // stop form refresh
 
-    const coach = this.parentElement.querySelector("h2").textContent;
-    const date = this.querySelector('input[type="date"]').value;
-    const time = this.querySelector('input[type="time"]').value;
+    // Get values
+    const date = document.getElementById("date-Thinusha").value;
+    const time = document.getElementById("time-Thinusha").value;
 
-    if (!date || !time) {
-      alert("Please fill all fields.");
-      return;
+    if (date && time) {
+      confirmation.style.display = "block"; // show confirmation
+      confirmation.outerText = `✅ Appointment booked for ${date} at ${time}`;
+    } else {
+      confirmation.style.display = "block";
+      confirmation.style.color = "red";
+      confirmation.outerText = "⚠️ Please select both date and time.";
     }
 
-    // Save to localStorage
-    const appointment = { coach, date, time };
-    let appointments = JSON.parse(localStorage.getItem("appointments")) || [];
-    appointments.push(appointment);
-    localStorage.setItem("appointments", JSON.stringify(appointments));
-
-    // Show confirmation
-    this.parentElement.querySelector(".confirmation").style.display = "block";
-
-    // Reset form
-    this.reset();
+    // Optional: clear form after booking
+    form.reset();
   });
-});
-
