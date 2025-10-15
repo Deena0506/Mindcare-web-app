@@ -59,3 +59,88 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
 });
+
+// Load saved moods from localStorage
+let moods = JSON.parse(localStorage.getItem("moods")) || [];
+
+// Chart.js setup
+const ctx = document.getElementById("moodChart").getContext("2d");
+const moodChart = new Chart(ctx, {
+  type: "bar",
+  data: {
+    labels: [], // moods
+    datasets: [{
+      label: "Mood Count",
+      data: [],
+      backgroundColor: "rgba(75, 192, 192, 0.6)"
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false
+  }
+});
+
+// Save Mood
+function saveMood() {
+  const moodSelect = document.getElementById("mood-select");
+  const selectedMood = moodSelect.value;
+
+  if (selectedMood === "") {
+    alert("Please select a mood.");
+    return;
+  }
+
+  // Save to array
+  moods.push({
+    mood: selectedMood,
+    date: new Date().toLocaleDateString()
+  });
+
+  // Store in localStorage
+  localStorage.setItem("moods", JSON.stringify(moods));
+
+  // Update chart + history
+  updateChart();
+  updateHistory();
+
+  moodSelect.value = ""; // reset
+}
+
+// Update Chart
+function updateChart() {
+  const moodCounts = {};
+  moods.forEach(entry => {
+    moodCounts[entry.mood] = (moodCounts[entry.mood] || 0) + 1;
+  });
+
+  moodChart.data.labels = Object.keys(moodCounts);
+  moodChart.data.datasets[0].data = Object.values(moodCounts);
+  moodChart.update();
+}
+
+// Update History List
+function updateHistory() {
+  const historyList = document.getElementById("mood-history-list");
+  historyList.innerHTML = "";
+
+  moods.forEach(entry => {
+    const li = document.createElement("li");
+    li.textContent = `${entry.date}: ${entry.mood}`;
+    historyList.appendChild(li);
+  });
+}
+
+// Clear history
+function clearHistory() {
+  if (confirm("Are you sure you want to clear all moods?")) {
+    moods = [];
+    localStorage.removeItem("moods");
+    updateChart();
+    updateHistory();
+  }
+}
+// Initialize on page load
+updateChart();
+updateHistory();
+
