@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daily Journaling</title>
+  <link rel="stylesheet" href="journaling.css">
+
+  <!-- Navbar -->
+  <header>
+    <nav class="navbar">
+      <div class="logo">Journaling</div>
+
+      <!-- Hamburger Icon -->
+      
+      <div class="hamburger" onclick="toggleMenu()" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="challenge.html">21-Day Challenge</a></li>
+        <li><a href="mood.html">Daily Mood</a></li>
+        <li><a href="mental_wellness_coach.html">Mental Wellness Coach</a></li>
+        <li><a href="journaling.html">Daily Journaling</a></li>
+    </ul>
+
+    </nav>
+  </header>
+</head>
+<body>
+  <div class="journal-container">
+    <h1>📝 Daily Journaling</h1>
+    <p>Write down your thoughts, feelings, or gratitude for today.</p>
+
+    <textarea id="journal-entry" placeholder="Start writing here..."></textarea>
+    <button onclick="saveEntry()">Save Entry</button>
+    <button class="clear-btn" onclick="clearJournal()">Clear All</button>
+
+    <h2>📖 Your Past Entries</h2>
+    <ul id="journal-list"></ul>
+  </div>
+
+  <script src="journaling.js"></script>
+</body>
+</html>

@@ -1,0 +1,186 @@
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(to right, #ffecd2, #fcb69f);
+  min-height: 100vh;
+  margin: 0;
+  display: flex;
+  flex-direction: column; /* stack navbar + content */
+}
+
+/* ------------------- NAVBAR ------------------- */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px; /* smaller padding for mobile */
+  background-color: #1e3d59;
+  color: white;
+  position: relative;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+/* Nav Links */
+.nav-links {
+  list-style: none;
+  display: flex;
+}
+
+.nav-links li {
+  margin-left: 20px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: white;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+.nav-links a:hover {
+  color: #ffcb77;
+}
+
+/* Hamburger Icon */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.hamburger span {
+  height: 3px;
+  width: 25px;
+  background: white;
+  margin: 4px;
+  border-radius: 3px;
+  transition: all 0.4s ease;
+}
+
+/* Transform into "X" */
+.hamburger.active span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(6px, -6px);
+}
+
+/* ------------------- RESPONSIVE NAVBAR ------------------- */
+@media (max-width: 768px) {
+  .nav-links {
+    flex-direction: column;
+    background-color: #1e3d59;
+    position: absolute;
+    top: 60px;
+    right: 0;
+    width: 200px;
+    border-radius: 8px;
+    text-align: center;
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    transition: max-height 0.4s ease, opacity 0.4s ease;
+  }
+
+  .nav-links li {
+    margin: 15px 0;
+  }
+
+  .nav-links.active {
+    max-height: 300px;
+    opacity: 1;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+}
+
+/* ------------------- MAIN CONTENT ------------------- */
+.main-content {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px 20px;
+}
+
+.journal-container {
+  width: 100%;
+  max-width: 600px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* ------------------- TYPOGRAPHY ------------------- */
+h1, h2 {
+  color: #333;
+  margin-bottom: 10px;
+}
+
+p {
+  color: #555;
+}
+
+/* ------------------- INPUT & BUTTONS ------------------- */
+textarea {
+  width: 100%;
+  height: 150px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+  resize: none;
+}
+
+button {
+  padding: 10px 18px;
+  margin: 5px 5px 10px 0;
+  border: none;
+  border-radius: 20px;
+  background: #ff9f68;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+  font-size: 0.9rem;
+}
+
+button:hover {
+  background: #ff7b42;
+}
+
+.clear-btn {
+  background: #d9534f;
+}
+
+.clear-btn:hover {
+  background: #c9302c;
+}
+
+/* ------------------- JOURNAL LIST ------------------- */
+#journal-list {
+  list-style: none;
+  padding: 0;
+}
+
+#journal-list li {
+  background: #f9f9f9;
+  margin: 8px 0;
+  padding: 10px;
+  border-radius: 8px;
+  color: #444;
+  font-size: 0.95rem;
+  word-wrap: break-word; /* prevent overflow on mobile */
+}
