@@ -360,8 +360,20 @@ function showFireworks(streak) {
     message.remove();
   }, 5000);
 }
+
+// Toggle mobile menu
+function toggleMenu() {
+  const nav = document.getElementById("navLinks");
+  const burger = document.getElementById("hamburger");
+  if (nav && burger) {
+    nav.classList.toggle("active");
+    burger.classList.toggle("active");
+  }
+}
+
 </script>
+<script src="script.js"></script>
 
 </body>
-<script src="script.js"></script>
+
 </html>
