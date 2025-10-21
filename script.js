@@ -167,32 +167,32 @@ updateHistory();
     form.reset();
   });
 
-// script.js
-// No localStorage — live-only counter that increases on click
+  let streak = 0;
 
-window.addEventListener("DOMContentLoaded", () => {
-  // Initialize streak from displayed value (or 0)
-  const streakEl = document.getElementById("streak-count");
-  let streak = parseInt(streakEl.textContent, 10) || 0;
+function markComplete(button) {
+  const card = button.closest(".challenge-card");
+  const day = card.dataset.day;
 
-  // Expose function globally so inline onclick="markComplete(this)" works
-  window.markComplete = function(button) {
-    if (!button || button.disabled) return; // defensive
+  // Prevent double counting
+  if (button.disabled) return;
 
-    const card = button.closest(".challenge-card");
-    const day = card ? card.dataset.day : "unknown";
+  // Increase streak
+  streak++;
+  document.getElementById("streak-count").textContent = streak;
 
-    // Increase streak
-    streak += 1;
+  // Disable button
+  button.disabled = true;
+  button.textContent = "Completed";
 
-    // Update UI
-    streakEl.textContent = streak;
-    button.disabled = true;
-    button.textContent = "✔ Completed";
+  // Update progress bar
+  updateProgress();
 
-    // Optional: add a visual "completed" class
-    if (card) card.classList.add("completed");
+  console.log(`Day ${day} completed — Current streak: ${streak}`);
+}
 
-    alert(`🔥 Day ${day} completed! Current streak: ${streak} days`);
-  };
-});
+function updateProgress() {
+  const total = document.querySelectorAll(".challenge-card").length;
+  const completed = document.querySelectorAll(".complete-btn:disabled").length;
+  const percent = (completed / total) * 100;
+  document.getElementById("progress").style.width = percent + "%";
+}

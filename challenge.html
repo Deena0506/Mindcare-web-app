@@ -40,9 +40,62 @@
     .complete-btn:hover:not(:disabled) { background:#ff7b42; }
     .complete-btn:disabled { background:#3c763d; cursor:default; opacity:0.9; }
     .completed { opacity:0.95; border:2px solid #dff0d8; }
+    /* Progress Bar */
+.progress-bar {
+  width: 100%;
+  height: 20px;
+  background: #eee;
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 10px 0 20px;
+}
+
+.progress {
+  height: 100%;
+  width: 0%;
+  background: #ffcb77;
+  transition: width 0.4s ease;
+}
+
+.fireworks-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+  pointer-events: none;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.fireworks-message {
+  position: fixed;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(255, 255, 255, 0.9);
+  color: #1e3d59;
+  padding: 20px 40px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  border-radius: 15px;
+  text-align: center;
+  z-index: 1000;
+  animation: glow 1.5s infinite alternate;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
+}
+
+@keyframes glow {
+  from { box-shadow: 0 0 10px #ffcb77; }
+  to { box-shadow: 0 0 30px #ffa600; }
+}
+
+
   </style>
 </head>
 <body>
+
+
   <div class="container">
     <div class="challenge-header">
       <h1>21 - Day Mental Wellness Challenge</h1>
@@ -50,6 +103,10 @@
       <div class="streak-container">
         🔥 Current Streak: <span id="streak-count">0</span> days
       </div>
+      <div class="progress-bar">
+        <div class="progress" id="progress"></div>
+    </div>
+
     </div>
 
     <div class="challenge-grid" id="challengeGrid">
@@ -182,37 +239,129 @@
     </div>
   </div>
 
-  <script>
-    // Live-only streak counter (no persistence).
-    (function() {
-      // initial streak value (starts from the displayed DOM value or 0)
-      const streakEl = document.getElementById('streak-count');
-      let streak = parseInt(streakEl.textContent, 10) || 0;
+ <script>
+let streak = 0;
 
-      // expose function for inline onclick usage
-      window.markComplete = function(btn) {
-        if (!btn) return;
+function markComplete(button) {
+  const card = button.closest(".challenge-card");
+  const day = card.dataset.day;
 
-        // defensive: don't increment if button already disabled
-        if (btn.disabled) return;
+  // Prevent double counting
+  if (button.disabled) return;
 
-        const card = btn.closest('.challenge-card');
-        const day = card ? card.dataset.day : '(unknown)';
+  // Increase streak
+  streak++;
+  document.getElementById("streak-count").textContent = streak;
 
-        // increment streak
-        streak += 1;
+  // Disable button
+  button.disabled = true;
+  button.textContent = "Completed";
 
-        // update UI
-        streakEl.textContent = streak;
-        btn.disabled = true;
-        btn.textContent = '✔ Completed';
-        if (card) card.classList.add('completed');
+  // Update progress bar
+  updateProgress();
 
-        // immediate feedback
-        alert(`🔥 Day ${day} completed! Current streak: ${streak} days`);
-      };
-    })();
-  </script>
+  console.log(`Day ${day} completed — Current streak: ${streak}`);
+
+  // ✅ Fire celebration (move this inside markComplete)
+  checkMilestone(streak);
+}
+
+function updateProgress() {
+  const total = document.querySelectorAll(".challenge-card").length;
+  const completed = document.querySelectorAll(".complete-btn:disabled").length;
+  const percent = (completed / total) * 100;
+  document.getElementById("progress").style.width = percent + "%";
+}
+
+function checkMilestone(streak) {
+  if (streak === 7 || streak === 14 || streak === 21) {
+    showFireworks(streak);
+  }
+}
+
+function showFireworks(streak) {
+  // Message box
+  const message = document.createElement("div");
+  message.classList.add("fireworks-message");
+  if (streak === 7) message.textContent = "🎆 7-Day Milestone! Keep going strong!";
+  else if (streak === 14) message.textContent = "🔥 14 Days! You're on fire!";
+  else message.textContent = "🏆 21 Days Complete! You did it!";
+  document.body.appendChild(message);
+
+  // Create fireworks canvas
+  const canvas = document.createElement("canvas");
+  canvas.classList.add("fireworks-canvas");
+  document.body.appendChild(canvas);
+
+  const ctx = canvas.getContext("2d");
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const particles = [];
+
+  function random(min, max) {
+    return Math.random() * (max - min) + min;
+  }
+
+  // Create fireworks bursts
+  function createFirework(x, y, color) {
+    const count = 60;
+    for (let i = 0; i < count; i++) {
+      const angle = (i * Math.PI * 2) / count;
+      particles.push({
+        x,
+        y,
+        color,
+        speed: random(2, 5),
+        angle,
+        alpha: 1,
+        size: random(2, 4)
+      });
+    }
+  }
+
+  function animate() {
+    ctx.fillStyle = "rgba(0,0,0,0.1)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    particles.forEach((p, i) => {
+      p.x += Math.cos(p.angle) * p.speed;
+      p.y += Math.sin(p.angle) * p.speed + 0.5; // gravity
+      p.alpha -= 0.01;
+
+      if (p.alpha <= 0) particles.splice(i, 1);
+      else {
+        ctx.globalAlpha = p.alpha;
+        ctx.fillStyle = p.color;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    });
+
+    if (particles.length > 0) requestAnimationFrame(animate);
+  }
+
+  // Random fireworks bursts
+  for (let i = 0; i < 5; i++) {
+    setTimeout(() => {
+      createFirework(
+        random(canvas.width * 0.2, canvas.width * 0.8),
+        random(canvas.height * 0.2, canvas.height * 0.5),
+        `hsl(${random(0, 360)}, 100%, 60%)`
+      );
+      animate();
+    }, i * 800);
+  }
+
+  // Remove everything after 5 seconds
+  setTimeout(() => {
+    canvas.remove();
+    message.remove();
+  }, 5000);
+}
+</script>
+
 </body>
 <script src="script.js"></script>
 </html>
