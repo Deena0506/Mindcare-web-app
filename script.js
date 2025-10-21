@@ -167,32 +167,4 @@ updateHistory();
     form.reset();
   });
 
-  let streak = 0;
-
-function markComplete(button) {
-  const card = button.closest(".challenge-card");
-  const day = card.dataset.day;
-
-  // Prevent double counting
-  if (button.disabled) return;
-
-  // Increase streak
-  streak++;
-  document.getElementById("streak-count").textContent = streak;
-
-  // Disable button
-  button.disabled = true;
-  button.textContent = "Completed";
-
-  // Update progress bar
-  updateProgress();
-
-  console.log(`Day ${day} completed — Current streak: ${streak}`);
-}
-
-function updateProgress() {
-  const total = document.querySelectorAll(".challenge-card").length;
-  const completed = document.querySelectorAll(".complete-btn:disabled").length;
-  const percent = (completed / total) * 100;
-  document.getElementById("progress").style.width = percent + "%";
-}
+  

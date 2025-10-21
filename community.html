@@ -3,46 +3,47 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mental Health & Wellness</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Community Wall</title>
+  <link rel="stylesheet" href="community.css">
 </head>
 <body>
-  <!-- Navbar -->
+   <!-- Navbar -->
   <header>
     <nav class="navbar">
-      <div class="logo">MindCare</div>
+      <div class="logo">WellnessGram</div>
 
       <!-- Hamburger Icon -->
-      
       <div class="hamburger" onclick="toggleMenu()" id="hamburger">
         <span></span>
         <span></span>
         <span></span>
     </div>
       <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
         <li><a href="challenge.html">21-Day Challenge</a></li>
         <li><a href="mood.html">Daily Mood</a></li>
         <li><a href="mental_wellness_coach.html">Mental Wellness Coach</a></li>
         <li><a href="journaling.html">Daily Journaling</a></li>
-        <li><a href="community.html" >Community</a></li>
     </ul>
 
     </nav>
   </header>
 
-  <!-- Hero Section -->
-  <section class="hero">
-    <div class="hero-content">
-      <h1>Relax Your Mind, Heal Your Soul</h1>
-      <p id="quote">"Mental health is not a destination, but a process."</p>
-      <button onclick="newQuote()">New Quote</button>
+  <section class="community">
+    <h1>🌸 Community Wall</h1>
+    <p>Share your thoughts or moments with the wellness family 💬</p>
 
-      <a href="challenge.html" class="get-started-btn">Get Started</a>
+    <div class="post-creator">
+      <textarea id="postText" placeholder="Write something positive..."></textarea>
+      <input type="file" id="imageInput" accept="image/*">
+      <button onclick="createPost()">Post</button>
+    </div>
+
+    <div class="feed" id="feed">
+      <!-- Posts appear here -->
     </div>
   </section>
 
-    
-
+  <script src="community.js"></script>
 </body>
-<script src="script.js"></script>
 </html>
