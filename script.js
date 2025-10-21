@@ -156,7 +156,7 @@ updateHistory();
 
     if (date && time) {
       confirmation.style.display = "block"; // show confirmation
-      confirmation.outerText = `✅ Appointment booked for ${date} at ${time}`;
+      confirmation.outerText = `Appointment booked for ${date} at ${time}`;
     } else {
       confirmation.style.display = "block";
       confirmation.style.color = "red";
@@ -166,3 +166,33 @@ updateHistory();
     // Optional: clear form after booking
     form.reset();
   });
+
+// script.js
+// No localStorage — live-only counter that increases on click
+
+window.addEventListener("DOMContentLoaded", () => {
+  // Initialize streak from displayed value (or 0)
+  const streakEl = document.getElementById("streak-count");
+  let streak = parseInt(streakEl.textContent, 10) || 0;
+
+  // Expose function globally so inline onclick="markComplete(this)" works
+  window.markComplete = function(button) {
+    if (!button || button.disabled) return; // defensive
+
+    const card = button.closest(".challenge-card");
+    const day = card ? card.dataset.day : "unknown";
+
+    // Increase streak
+    streak += 1;
+
+    // Update UI
+    streakEl.textContent = streak;
+    button.disabled = true;
+    button.textContent = "✔ Completed";
+
+    // Optional: add a visual "completed" class
+    if (card) card.classList.add("completed");
+
+    alert(`🔥 Day ${day} completed! Current streak: ${streak} days`);
+  };
+});
