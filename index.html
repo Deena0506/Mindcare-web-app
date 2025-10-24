@@ -36,10 +36,40 @@
       <h1>Relax Your Mind, Heal Your Soul</h1>
       <p id="quote">"Mental health is not a destination, but a process."</p>
       <button onclick="newQuote()">New Quote</button>
-
       <a href="challenge.html" class="get-started-btn">Get Started</a>
+
+<!-- Ambient Music Player -->
+<div class="music-player">
+  <button id="music-toggle">🎵 Play Calm Music</button>
+  <audio id="ambient-music" loop>
+    <source src="beautiful-stress-relief-ambient-184569.mp3" type="audio/mpeg">
+    Your browser does not support the audio tag.
+  </audio>
+</div>
+
+<script>
+const music = document.getElementById("ambient-music");
+const toggle = document.getElementById("music-toggle");
+let isPlaying = false;
+
+toggle.addEventListener("click", () => {
+  if (isPlaying) {
+    music.pause();
+    toggle.textContent = "🎵 Play Calm Music";
+  } else {
+    music.play();
+    toggle.textContent = "⏸ Pause Music";
+  }
+  isPlaying = !isPlaying;
+});
+</script>
+
+
     </div>
-  </section>   
+  </section>  
+  
+
+
 
 </body>
 <script src="script.js"></script>
