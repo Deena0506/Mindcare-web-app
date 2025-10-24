@@ -26,13 +26,25 @@ function newQuote() {
 
 // Toggle mobile menu
 function toggleMenu() {
-  const nav = document.getElementById("navLinks");
-  const burger = document.getElementById("hamburger");
-  if (nav && burger) {
-    nav.classList.toggle("active");
-    burger.classList.toggle("active");
+  const hamburger = document.getElementById("hamburger");
+  const navLinks = document.getElementById("navLinks");
+
+  if (hamburger && navLinks) {
+    hamburger.classList.toggle("active");
+    navLinks.classList.toggle("active");
   }
 }
+
+// Navbar scroll effect
+window.addEventListener("scroll", () => {
+  const navbar = document.querySelector(".navbar");
+  if (window.scrollY > 50) {
+    navbar.classList.add("scrolled");
+  } else {
+    navbar.classList.remove("scrolled");
+  }
+});
+
 
 document.addEventListener("DOMContentLoaded", () => {
 
