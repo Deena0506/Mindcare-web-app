@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Goal Tracker</title>
-
   <style>
     /* ------------------- NAVBAR ------------------- */
     .navbar {
@@ -23,7 +22,6 @@
       font-weight: bold;
     }
 
-    /* Nav Links */
     .nav-links {
       list-style: none;
       display: flex;
@@ -62,7 +60,6 @@
       transition: all 0.4s ease;
     }
 
-    /* Transform into "X" */
     .hamburger.active span:nth-child(1) {
       transform: rotate(45deg) translate(5px, 5px);
     }
@@ -75,7 +72,6 @@
       transform: rotate(-45deg) translate(6px, -6px);
     }
 
-    /* Responsive Navbar */
     @media (max-width: 768px) {
       .hamburger {
         display: flex;
@@ -106,7 +102,7 @@
       }
     }
 
-    /* -------------- MAIN CONTENT -------------- */
+    /* --------- MAIN CONTENT --------- */
     body {
       font-family: Arial, sans-serif;
       margin: 0;
@@ -180,79 +176,96 @@
       background-color: #ffcb77;
       color: #1e3d59;
     }
+
+    .completed {
+      text-decoration: line-through;
+      color: gray;
+    }
   </style>
 </head>
-
 <body>
   <header>
     <nav class="navbar">
       <div class="logo">Goal Tracker</div>
-
-      <!-- Hamburger Icon -->
       <div class="hamburger" id="hamburger">
-        <span></span>
-        <span></span>
-        <span></span>
+        <span></span><span></span><span></span>
       </div>
-
-      <!-- Navigation Links -->
       <ul class="nav-links" id="navLinks">
         <li><a href="index.html">Home</a></li>
         <li><a href="challenge.html">21-Day Challenge</a></li>
         <li><a href="mood.html">Daily Mood</a></li>
         <li><a href="journaling.html">Daily Journaling</a></li>
+        <li><a href="community.html">Community Wall</a></li>
       </ul>
     </nav>
   </header>
 
   <main class="goal-container">
     <h1>Set & Track Your Wellness Goals</h1>
-
     <div class="goal-input">
       <input type="text" id="goal-name" placeholder="Enter your goal (e.g., Meditate 10 mins)" />
       <input type="number" id="goal-target" placeholder="Target count (e.g., 7)" />
       <button onclick="addGoal()">Add Goal</button>
     </div>
-
     <div id="goal-list"></div>
   </main>
 
-  <canvas id="confetti"></canvas>
-
   <script>
-    // Toggle Menu
+    // Hamburger Menu
     const hamburger = document.getElementById("hamburger");
     const navLinks = document.getElementById("navLinks");
-
     hamburger.addEventListener("click", () => {
       hamburger.classList.toggle("active");
       navLinks.classList.toggle("active");
     });
 
-    // Goal Tracker Logic
+    // Goal Logic
     const goalList = document.getElementById("goal-list");
 
     function addGoal() {
       const name = document.getElementById("goal-name").value;
       const target = document.getElementById("goal-target").value;
-
-      if (!name || !target) {
-        alert("Please enter both goal name and target!");
-        return;
-      }
+      if (!name || !target) return alert("Please enter both goal name and target!");
 
       const goalItem = document.createElement("div");
       goalItem.className = "goal-item";
       goalItem.innerHTML = `
         <p><strong>${name}</strong></p>
         <p>Target: ${target}</p>
+        <button onclick="completeGoal(this, '${name}')">Mark as Completed</button>
         <button onclick="this.parentElement.remove()">Remove</button>
       `;
-
       goalList.appendChild(goalItem);
 
       document.getElementById("goal-name").value = "";
       document.getElementById("goal-target").value = "";
+    }
+
+    // Complete & Share Goal
+    function completeGoal(btn, name) {
+      const item = btn.parentElement;
+      item.querySelector("p").classList.add("completed");
+      btn.textContent = "✅ Completed";
+      btn.disabled = true;
+
+      // Ask to share
+      if (confirm("🎉 Goal completed! Would you like to share it on the community wall?")) {
+        shareToCommunity(name);
+      }
+    }
+
+    // Share to community
+    function shareToCommunity(goalName) {
+      const posts = JSON.parse(localStorage.getItem("communityPosts")) || [];
+      const newPost = {
+        author: "You",
+        content: `🎯 Completed my goal: ${goalName}`,
+        createdAt: new Date().toLocaleString(),
+      };
+      posts.push(newPost);
+      localStorage.setItem("communityPosts", JSON.stringify(posts));
+      alert("Shared successfully! Visit the Community Wall to see your post.");
+      window.location.href = "community.html";
     }
   </script>
 </body>
