@@ -179,18 +179,3 @@ updateHistory();
     form.reset();
   });
 
-  // Ambient music controls
-const music = document.getElementById("ambient-music");
-const toggle = document.getElementById("music-toggle");
-let isPlaying = false;
-
-toggle.addEventListener("click", () => {
-  if (isPlaying) {
-    music.pause();
-    toggle.textContent = "🎵 Play Calm Music";
-  } else {
-    music.play();
-    toggle.textContent = "⏸ Pause Music";
-  }
-  isPlaying = !isPlaying;
-});
