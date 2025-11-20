@@ -138,6 +138,26 @@ img {
   }
 }
 
+/* Right-side container for hamburger + calendar icon */
+.right-icons {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Calendar icon inside navbar */
+.calendar-icon-nav img {
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  transition: 0.3s ease;
+  filter: brightness(0) invert(1); /* Makes the icon white */
+}
+
+.calendar-icon-nav img:hover {
+  transform: scale(1.1);
+}
+
 /* ------------------- HERO SECTION ------------------- */
 .hero {
   height: 100vh;
