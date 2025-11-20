@@ -1,9 +1,9 @@
 // Quotes array
 const quotes = [
   "Happiness can be found even in the darkest of times, if one only remembers to turn on the light.",
-  "Your present circumstances don’t determine where you can go; they merely determine where you start.",
+  "Your present circumstances don't determine where you can go; they merely determine where you start.",
   "Mental health is not a destination, but a process.",
-  "You don’t have to control your thoughts. You just have to stop letting them control you.",
+  "You don't have to control your thoughts. You just have to stop letting them control you.",
   "Self-care is how you take your power back."
 ];
 
@@ -69,7 +69,6 @@ document.addEventListener("DOMContentLoaded", () => {
       localStorage.setItem("challenge_day_" + day, "completed");
     });
   });
-
 });
 
 // Load saved moods from localStorage
@@ -152,30 +151,3 @@ function clearHistory() {
     updateHistory();
   }
 }
-// Initialize on page load
-updateChart();
-updateHistory();
-
-  const form = document.getElementById("appointmentForm");
-  const confirmation = document.getElementById("confirmation");
-
-  form.addEventListener("submit", function(event) {
-    event.preventDefault(); // stop form refresh
-
-    // Get values
-    const date = document.getElementById("date-Thinusha").value;
-    const time = document.getElementById("time-Thinusha").value;
-
-    if (date && time) {
-      confirmation.style.display = "block"; // show confirmation
-      confirmation.outerText = `Appointment booked for ${date} at ${time}`;
-    } else {
-      confirmation.style.display = "block";
-      confirmation.style.color = "red";
-      confirmation.outerText = "⚠️ Please select both date and time.";
-    }
-
-    // Optional: clear form after booking
-    form.reset();
-  });
-
