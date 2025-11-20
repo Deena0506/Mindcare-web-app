@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task Calendar</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f0f4f8;
+    }
+
+    .calendar-container {
+      width: 90%;
+      max-width: 800px;
+      margin: 30px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #1e3d59;
+    }
+
+    .calendar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 20px;
+    }
+
+    .calendar-header button {
+      padding: 10px 20px;
+      border: none;
+      background: #1e3d59;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .calendar {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      margin-top: 20px;
+      gap: 10px;
+    }
+
+    .day {
+      background: #e3edf5;
+      padding: 15px;
+      border-radius: 10px;
+      text-align: center;
+      cursor: pointer;
+      min-height: 60px;
+    }
+
+    .day:hover {
+      background: #c9d8e6;
+    }
+
+    .task-popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 90%;
+      max-width: 350px;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      display: none;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+
+    .task-popup input,
+    .task-popup button {
+      width: 100%;
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    .close-btn {
+      background: #ff4d4d;
+      color: white;
+      border: none;
+      margin-top: 15px;
+    }
+
+    .task-list {
+      margin-top: 20px;
+      padding: 10px;
+      background: #fff7e6;
+      border-radius: 10px;
+    }
+
+/* Buttons inside task list */
+#tasks button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  font-size: 0.8rem;
+  margin-left: 8px;
+  transition: 0.2s;
+}
+
+/* Delete button */
+#tasks button:nth-child(3) {
+  background: #173652;   /* deep blue */
+  color: rgb(255, 255, 255);
+}
+  
+#tasks button:nth-child(3):hover {
+  background: #fa0000;  
+  color: rgb(255, 255, 255); /* red */
+  transform: scale(1.05);
+}
+
+/* Edit button */
+#tasks button:nth-child(2) {
+  background: #d4d4d4;   /* red */
+  color: rgb(0, 0, 0);
+}
+
+#tasks button:nth-child(2):hover {
+  background: #1e3d59;
+  color: rgb(255, 255, 255);   /* deep blue */
+  transform: scale(1.05);
+}
+
+
+
+/* Task list items */
+#tasks li {
+  background: #f7faff;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  list-style: none;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+
+  </style>
+</head>
+<body>
+
+  <div class="calendar-container">
+    <h1>Task Calendar</h1>
+
+    <div class="calendar-header">
+      <button onclick="prevMonth()">Previous</button>
+      <h2 id="month-year"></h2>
+      <button onclick="nextMonth()">Next</button>
+    </div>
+
+    <div class="calendar" id="calendar"></div>
+
+    <div class="task-popup" id="taskPopup">
+      <h3 id="popupDate"></h3>
+      <input type="text" id="taskInput" placeholder="Enter task...">
+      <button onclick="saveTask()">Save Task</button>
+      <button class="close-btn" onclick="closePopup()">Close</button>
+    </div>
+
+    <div class="task-list" id="taskList">
+      <h3>Tasks</h3>
+      <ul id="tasks"></ul>
+    </div>
+
+  </div>
+
+<script>
+  let currentDate = new Date();
+  let selectedDate = null;
+  let editTaskIndex = null;
+
+  function loadCalendar() {
+    const monthYear = document.getElementById("month-year");
+    const calendar = document.getElementById("calendar");
+
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth();
+
+    const firstDay = new Date(year, month, 1).getDay();
+    const totalDays = new Date(year, month + 1, 0).getDate();
+
+    monthYear.innerHTML = currentDate.toLocaleDateString("en-US", {
+      month: "long",
+      year: "numeric"
+    });
+
+    calendar.innerHTML = "";
+
+    for (let i = 0; i < firstDay; i++) {
+      calendar.innerHTML += `<div></div>`;
+    }
+
+    for (let day = 1; day <= totalDays; day++) {
+      calendar.innerHTML += `<div class="day" onclick="openPopup(${day})">${day}</div>`;
+    }
+
+    loadTasks();
+  }
+
+  function prevMonth() {
+    currentDate.setMonth(currentDate.getMonth() - 1);
+    loadCalendar();
+  }
+
+  function nextMonth() {
+    currentDate.setMonth(currentDate.getMonth() + 1);
+    loadCalendar();
+  }
+
+  function openPopup(day) {
+    selectedDate = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${day}`;
+    document.getElementById("popupDate").innerText = "Tasks for " + selectedDate;
+    document.getElementById("taskPopup").style.display = "block";
+    document.getElementById("taskInput").value = "";
+    editTaskIndex = null; // reset edit
+  }
+
+  function closePopup() {
+    document.getElementById("taskPopup").style.display = "none";
+  }
+
+  function saveTask() {
+    const input = document.getElementById("taskInput");
+    if (input.value.trim() === "") return;
+
+    let tasks = JSON.parse(localStorage.getItem("tasks")) || {};
+    if (!tasks[selectedDate]) tasks[selectedDate] = [];
+
+    // If editing a task
+    if (editTaskIndex !== null) {
+      tasks[selectedDate][editTaskIndex] = input.value;
+      editTaskIndex = null;
+    } else {
+      tasks[selectedDate].push(input.value);
+    }
+
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    input.value = "";
+    closePopup();
+    loadTasks(); 
+  }
+
+  function loadTasks() {
+    const list = document.getElementById("tasks");
+    list.innerHTML = "";
+
+    let tasks = JSON.parse(localStorage.getItem("tasks")) || {};
+
+    Object.keys(tasks).forEach(date => {
+      tasks[date].forEach((task, index) => {
+        list.innerHTML += `
+          <li>
+            <strong>${date}:</strong> ${task} 
+            <button onclick="editTask('${date}', ${index})">Edit</button>
+            <button onclick="deleteTask('${date}', ${index})">Delete</button>
+          </li>
+        `;
+      });
+    });
+  }
+
+  function editTask(date, index) {
+    let tasks = JSON.parse(localStorage.getItem("tasks")) || {};
+
+    selectedDate = date;
+    editTaskIndex = index;
+
+    document.getElementById("taskInput").value = tasks[date][index];
+    document.getElementById("popupDate").innerText = "Edit Task - " + date;
+    document.getElementById("taskPopup").style.display = "block";
+  }
+
+  function deleteTask(date, index) {
+    let tasks = JSON.parse(localStorage.getItem("tasks")) || {};
+    tasks[date].splice(index, 1);
+
+    if (tasks[date].length === 0) delete tasks[date];
+
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    loadTasks();
+  }
+
+  loadCalendar();
+</script>
+</body>
+</html>

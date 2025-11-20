@@ -10,24 +10,36 @@
 
   <!-- Navbar -->
   <header>
-    <nav class="navbar">
-      <div class="logo">MindCare</div>
+<nav class="navbar">
+    <div class="logo">MindCare</div>
 
-      <!-- Hamburger Icon -->
-      
-      <div class="hamburger" onclick="toggleMenu()" id="hamburger">
-        <span></span>
-        <span></span>
-        <span></span>
+    <!-- Right side icons -->
+    <div class="right-icons">
+
+        <!-- Calendar Icon -->
+        <a href="calendar.html" class="calendar-icon-nav">
+            <img src="https://cdn-icons-png.flaticon.com/512/747/747310.png" alt="Calendar Task">
+        </a>
+
+        <!-- Hamburger Icon -->
+        <div class="hamburger" onclick="toggleMenu()" id="hamburger">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+
     </div>
-      <ul class="nav-links" id="navLinks">
+
+    <ul class="nav-links" id="navLinks">
         <li><a href="challenge.html">21-Day Challenge</a></li>
         <li><a href="mood.html">Daily Mood</a></li>
         <li><a href="goal.html">Goal Tracker</a></li>
         <li><a href="journaling.html">Daily Journaling</a></li>
         <li><a href="community.html">Community</a></li>
     </ul>
-    </nav>
+</nav>
+  
+</div>
   </header>
 
   <!-- Hero Section -->
@@ -37,6 +49,9 @@
       <p id="quote">"Mental health is not a destination, but a process."</p>
       <button onclick="newQuote()">New Quote</button>
       <a href="challenge.html" class="get-started-btn">Get Started</a>
+
+
+
 
 <!-- Ambient Music Player -->
 <div class="music-player">
@@ -62,15 +77,32 @@ toggle.addEventListener("click", () => {
   }
   isPlaying = !isPlaying;
 });
+
+ // Fetch users from backend
+    fetch('/getUsers')
+      .then(res => res.json())
+      .then(users => {
+        const userList = document.getElementById('userList');
+
+        if (users.length === 0) {
+          userList.textContent = 'No users found in the database.';
+          return;
+        }
+
+        userList.innerHTML = users.map(user => `
+          <div class="user">
+            <strong>Name:</strong> ${user.name} <br>
+            <strong>Age:</strong> ${user.age}
+          </div>
+        `).join('');
+      })
+      .catch(err => {
+        console.error(err);
+        document.getElementById('userList').textContent = 'Error loading users.';
+      });
 </script>
-
-
     </div>
   </section>  
-  
-
-
-
 </body>
 <script src="script.js"></script>
 </html>
