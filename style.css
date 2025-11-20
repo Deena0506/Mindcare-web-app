@@ -158,6 +158,30 @@ img {
   transform: scale(1.1);
 }
 
+/* -------------------- MOBILE RESPONSIVE -------------------- */
+@media (max-width: 768px) {
+  .right-icons {
+    gap: 12px;             /* reduce spacing */
+  }
+
+  .calendar-icon-nav img {
+    width: 26px;           /* smaller icon */
+    height: 26px;
+  }
+}
+
+@media (max-width: 480px) {
+  .right-icons {
+    gap: 8px;              /* even tighter spacing */
+  }
+
+  .calendar-icon-nav img {
+    width: 22px;           /* smallest size for tiny phones */
+    height: 22px;
+  }
+}
+
+
 /* ------------------- HERO SECTION ------------------- */
 .hero {
   height: 100vh;
