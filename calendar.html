@@ -77,13 +77,14 @@
     }
 
     .task-popup input,
-    .task-popup button {
-      width: 100%;
-      margin-top: 10px;
-      padding: 10px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-    }
+.task-popup button {
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;   /* ← FIX */
+}
 
     .close-btn {
       background: #ff4d4d;
