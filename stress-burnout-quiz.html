@@ -1,0 +1,170 @@
+<!-- stress-burnout-quiz.html -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Stress & Burnout Quiz — MindCare</title>
+  <style>
+    :root{
+      --bg:#1e3d59; --card:#ffffff; --accent:#2563eb; --muted:#6b7280;
+      --max-width:760px;
+      font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    body{background:var(--bg); margin:0; padding:24px; display:flex; justify-content:center;}
+    .card{width:100%; max-width:var(--max-width); background:var(--card); border-radius:12px; box-shadow:0 6px 20px rgba(15,23,42,0.08); padding:22px;}
+    h1{margin:0 0 6px; font-size:20px;}
+    p.lead{margin:0 0 18px; color:var(--muted);}
+    ol {padding-left:18px; margin:0 0 18px;}
+    .question{margin-bottom:14px;}
+    .q-text{font-weight:600; margin-bottom:6px;}
+    .options{display:flex; gap:8px; flex-wrap:wrap;}
+    label.option{flex:1 1 calc(50% - 8px); background:#f3f4f6; padding:8px 10px;border-radius:8px; cursor:pointer; user-select:none; display:flex; align-items:center; gap:10px;}
+    label.option input{margin-right:6px;}
+    .actions{display:flex; gap:8px; margin-top:12px;}
+    button{background:var(--accent); color:white; border:none; padding:10px 14px; border-radius:8px; cursor:pointer;}
+    button.secondary{background:transparent; color:var(--accent); border:1px solid rgba(37,99,235,0.12);}
+    .results{margin-top:18px; padding:14px; border-radius:10px; background:#f8fafc; color:var(--muted);}
+    .score{font-weight:700; font-size:18px;}
+    .tips{margin-top:8px;}
+    @media (max-width:560px){ label.option{flex:1 1 100%;} }
+  </style>
+</head>
+<body>
+  <main class="card" role="main" aria-labelledby="title">
+    <h1 id="title">Stress & Burnout Level Quiz</h1>
+    <p class="lead">10 short questions — takes ~2 minutes. Honest answers give the best guidance.</p>
+
+    <form id="quizForm" autocomplete="off" aria-describedby="instructions">
+      <div id="questions"></div>
+
+      <div class="actions">
+        <button type="submit">See my result</button>
+        <button type="button" class="secondary" id="resetBtn">Reset</button>
+        <button type="button" class="secondary" id="saveBtn">Save (local)</button>
+      </div>
+    </form>
+
+    <section id="result" class="results" aria-live="polite" hidden>
+      <div class="score" id="scoreText"></div>
+      <div id="categoryText" style="font-weight:600; margin-top:6px;"></div>
+      <div class="tips" id="tipsText"></div>
+      <div style="margin-top:10px; color:var(--muted); font-size:13px;">
+        Tip: This tool is not a diagnosis. If you feel significantly impaired, seek professional help.
+      </div>
+    </section>
+  </main>
+
+  <script>
+  (function(){
+    // Questions array
+    const QUESTIONS = [
+      "I feel exhausted even after a normal night’s sleep.",
+      "I find it hard to concentrate at work or during tasks.",
+      "I feel irritable or easily frustrated.",
+      "I have lost interest in activities I usually enjoy.",
+      "I feel overwhelmed by my responsibilities.",
+      "I have difficulty relaxing or unwinding.",
+      "I’ve been having headaches, stomach issues, or muscle tension.",
+      "I feel detached or distant from people close to me.",
+      "I notice changes in appetite or weight linked to stress.",
+      "I feel like my work (or duties) is negatively affecting my health."
+    ];
+
+    // Options (value and label)
+    const OPTIONS = [
+      {v:0, t:"Never"},
+      {v:1, t:"Sometimes"},
+      {v:2, t:"Often"},
+      {v:3, t:"Always"}
+    ];
+
+    const container = document.getElementById('questions');
+
+    // render questions
+    QUESTIONS.forEach((q, i) => {
+      const div = document.createElement('div');
+      div.className = 'question';
+      div.innerHTML = `
+        <div class="q-text">Q${i+1}. ${escapeHtml(q)}</div>
+        <div class="options" role="radiogroup" aria-labelledby="q${i+1}">
+          ${OPTIONS.map(opt => `
+            <label class="option">
+              <input required type="radio" name="q${i+1}" value="${opt.v}" />
+              <span>${opt.t}</span>
+            </label>`).join('')}
+        </div>
+      `;
+      container.appendChild(div);
+    });
+
+    // helpers
+    function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+    const form = document.getElementById('quizForm');
+    const resultSec = document.getElementById('result');
+    const scoreText = document.getElementById('scoreText');
+    const categoryText = document.getElementById('categoryText');
+    const tipsText = document.getElementById('tipsText');
+    const resetBtn = document.getElementById('resetBtn');
+    const saveBtn = document.getElementById('saveBtn');
+
+    function interpret(score){
+      if(score <= 7) return {cat:'Low stress', tips:'Maintain routines: sleep, activity, social contact, continue self-care.'};
+      if(score <= 15) return {cat:'Moderate stress', tips:'Use stress tools: breathing, short breaks, set clear boundaries. Track sleep & mood.'};
+      if(score <= 22) return {cat:'High stress', tips:'Take active steps: reduce load, daily grounding exercises, seek peer or coach support.'};
+      return {cat:'Burnout risk', tips:'High risk for burnout. Consider professional support, reduce responsibilities, immediate self-care.'};
+    }
+
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      const fd = new FormData(form);
+      // sum each question value carefully (digit-by-digit style)
+      let total = 0;
+      for(let i=1;i<=QUESTIONS.length;i++){
+        const val = Number(fd.get('q'+i));
+        // defensive check
+        if(Number.isNaN(val)) { alert('Please answer every question'); return; }
+        total = total + val;
+      }
+      // show result
+      const r = interpret(total);
+      scoreText.textContent = `Score: ${total} / 30`;
+      categoryText.textContent = r.cat;
+      tipsText.textContent = r.tips;
+      resultSec.hidden = false;
+      resultSec.scrollIntoView({behavior:'smooth'});
+    });
+
+    resetBtn.addEventListener('click', function(){
+      form.reset();
+      resultSec.hidden = true;
+    });
+
+    // Save to localStorage
+    saveBtn.addEventListener('click', function(){
+      const fd = new FormData(form);
+      const answers = [];
+      for(let i=1;i<=QUESTIONS.length;i++){
+        const val = fd.get('q'+i);
+        if(val===null){ alert('Please complete the quiz before saving.'); return; }
+        answers.push(Number(val));
+      }
+      const total = answers.reduce((a,b)=>a+b,0);
+      const payload = {
+        date: new Date().toISOString(),
+        total: total,
+        answers: answers
+      };
+      const key = 'mindcare:stress_quiz';
+      const existing = JSON.parse(localStorage.getItem(key) || '[]');
+      existing.push(payload);
+      localStorage.setItem(key, JSON.stringify(existing));
+      alert('Saved locally.');
+    });
+
+    // optional: load last saved answers (uncomment to enable)
+    // (function loadLast(){ const key='mindcare:stress_quiz'; const arr=JSON.parse(localStorage.getItem(key)||'[]'); if(arr.length){ const last=arr[arr.length-1]; last.answers.forEach((v,i)=>{ const input=document.querySelector(`input[name=q${i+1}][value="${v}"]`); if(input) input.checked=true; } ); } })();
+
+  })();
+  </script>
